@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Html5QrcodeScanner } from 'html5-qrcode'
+import "./Scanner.css"
 
 const Scanner = () => {
   const [scanResult, setScanResult] = useState(null)
@@ -36,7 +37,7 @@ const Scanner = () => {
   }
 
   return (
-    <div className="App">
+    <div className="scanner">
       <h1>QR Scanning Code</h1>
       {scanResult ? (
         <div>

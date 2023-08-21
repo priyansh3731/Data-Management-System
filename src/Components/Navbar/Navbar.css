@@ -1,0 +1,9 @@
+.nav{
+    padding: 5px;
+    background-color: rgb(26, 181, 26);
+}
+.nav__name{
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}

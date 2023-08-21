@@ -1,0 +1,15 @@
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home__scan{
+    padding: 10px 25px 10px 25px;
+    font-size: 25px;
+    margin-top: 2rem;   
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}

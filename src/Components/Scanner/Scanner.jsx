@@ -36,7 +36,7 @@ const Scanner = () => {
   const handleManualSerialNumberChange=async(event)=>{
     const repo = {awb:event.target.value}
     setManualSerialNumber(repo)
-    const res = await axios.get("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
+    const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     console.log(res.data)
   }
 

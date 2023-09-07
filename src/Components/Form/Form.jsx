@@ -26,7 +26,10 @@ const Form = () => {
                 returnType:rtype,
                 sku:sku,
                 category:category,
-                qty:qty
+                qty:qty,
+                photo1:"",
+                photo2:"",
+                video:""
             }
             if(!awb || !firmName || !sborder || !rtype || !sku || !category || !qty ){
                 alert("fill all feilds")
@@ -52,8 +55,10 @@ const Form = () => {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      console.log(data)
-      data.map((data)=>(axios.post("https://grumpy-jacket-lamb.cyclic.app/data",data)))
+      const res = data.map((data)=>([{...data,photo1:"",photo2:"",video:""}]))
+      console.log(res[0])
+    //   res.map((res)=>(axios.post("https://grumpy-jacket-lamb.cyclic.app/data",res)))
+    axios.post("https://grumpy-jacket-lamb.cyclic.app/data",res[0])
     navigate("/")
     }
     reader.readAsBinaryString(file);

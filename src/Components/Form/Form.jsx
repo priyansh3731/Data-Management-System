@@ -32,7 +32,7 @@ const Form = () => {
                 return 
                 }
                 else{
-                await axios.post("https://determined-parka-frog.cyclic.app/data", formData)
+                await axios.post("https://grumpy-jacket-lamb.cyclic.app/data", formData)
                 navigate('/')
                 }
             }
@@ -40,6 +40,22 @@ const Form = () => {
                 console.error(error)
               }
     }
+
+    const excelHandler=async(e)=>{
+        e.preventDefault();
+        const [file] = e.target[0].files;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_json(ws);
+      data.map((data)=>(axios.post("https://grumpy-jacket-lamb.cyclic.app/data",data)))
+    navigate("/")
+    }
+    reader.readAsBinaryString(file);
+}
 
   return (
     <div className=''>
@@ -59,6 +75,12 @@ const Form = () => {
             <label >QTY</label>
             <input type="number" onChange={(e) => setQty(e.target.value)} value={qty}/>
             <button className='form__btn' onClick={submitForm} type="button">Submit</button>
+        </form>
+
+        <form onSubmit={excelHandler}>
+            <label>add excel data</label>
+            <input type="file" required />
+            <button type="submit">submit</button>
         </form>
 
     </div>

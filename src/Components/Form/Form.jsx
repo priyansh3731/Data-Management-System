@@ -36,7 +36,8 @@ const Form = () => {
                 return 
                 }
                 else{
-                await axios.post("https://grumpy-jacket-lamb.cyclic.app/data", formData)
+                const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data", formData)
+                console.log(res.data)
                 navigate('/')
                 }
             }

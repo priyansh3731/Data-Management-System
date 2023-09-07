@@ -46,7 +46,6 @@ const Scanner = () => {
         }
       }, [])
 
-      const {photo1} = ScanResult;
 
   return (
     <div>
@@ -86,7 +85,6 @@ const Scanner = () => {
           }
         </tr>
       </table>
-      <img src={photo1} />
     </div>
   )
 }

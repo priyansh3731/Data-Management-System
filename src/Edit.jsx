@@ -7,52 +7,6 @@ export const Edit=()=>{
     const {id} = useParams();
     const navigate = useNavigate();
 
-
-//     // Assuming you have a separate input field for photo1
-// const handlePhoto1InputChange = (event) => {
-//   const selectedFile = event.target.files[0];
-//   uploadFile(selectedFile, 'photo1');
-// };
-
-
-// // Assuming you have a separate input field for photo2
-// const handlePhoto2InputChange = (event) => {
-//   const selectedFile = event.target.files[0];
-//   uploadFile(selectedFile, 'photo2');
-// };
-
-
-// // Assuming you have a separate input field for video
-// const handleVideoInputChange = (event) => {
-//   const selectedFile = event.target.files[0];
-//   uploadFile(selectedFile, 'video');
-// };
-
-
-// const uploadFile = async (file, fieldName) => {
-//   if (!file) {
-//     alert('Please select a file.');
-//     return;
-//   }
-
-//   const reader = new FileReader();
-//   reader.onload = async() => {
-//     const fileBinary = reader.result;
-
-//     try {
-//       // Send the file binary data to the server
-//       const response = await axios.put(`https://grumpy-jacket-lamb.cyclic.app/data/${id}`, { [fieldName]: fileBinary });
-
-//       // Handle the server's response as needed
-//       console.log(`${fieldName} uploaded successfully:`, response.data);
-//     } catch (error) {
-//       console.error(`Error uploading ${fieldName}:`, error);
-//     }
-//   };
-
-//   reader.readAsDataURL(file);
-// };
-
 const submitHandler=async(e)=>{
   e.preventDefault();
   const res = {photo1:URL.createObjectURL(e.target[0].files[0]),photo2:URL.createObjectURL(e.target[1].files[0]),video:URL.createObjectURL(e.target[2].files[0])}

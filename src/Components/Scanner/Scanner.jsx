@@ -64,12 +64,11 @@ const Scanner = () => {
     
         scanner.render(success, error)
     
-        const success=async(result)=> {
+        function success (result) {
           if (isScanning) {
             scanner.clear()
             const res = result
-            const res1 = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb : res})
-            setScanResult(res1.data)
+            console.log(result)
             isScanning = false
           }
         }

@@ -10,6 +10,7 @@ const Scanner = () => {
 
   const [ScanResult,setScanResult] = useState({})
   const [images,setimages] = useState([])
+  const [scan,setscan] = useState(null)
 
   const handleManualSerialNumberChange=async(event)=>{
     event.preventDefault();
@@ -66,9 +67,8 @@ const Scanner = () => {
     
         function success (result) {
           if (isScanning) {
-            scanner.clear()
             const res = result
-            console.log(result)
+            setscan(res)
             isScanning = false
           }
         }
@@ -83,6 +83,7 @@ const Scanner = () => {
     <div>
     <div id="reader"></div>
       <form onSubmit={handleManualSerialNumberChange} >
+        {scan}
         <input type='text' />
         <button type='submit' >submit</button>
       </form>

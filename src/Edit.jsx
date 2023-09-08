@@ -30,12 +30,14 @@ const handleFileUpload1=async(e)=>{
 const handleFileUpload2=async(e)=>{
     const file = e.target.files[0]
     const base64 = await convertToBase64(file)
+    console.log(base64)
     setphoto2(base64)
 }
 
 const handleFileUpload3=async(e)=>{
     const file = e.target.files[0]
     const base64 = await convertToBase64(file)
+    console.log(base64)
     setvideo(base64)
 }
 

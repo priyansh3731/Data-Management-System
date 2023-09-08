@@ -1,21 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import axios from 'axios'
 import "./Scanner.css"
 import { Link } from 'react-router-dom'
-import { DataContext } from '../../Context/DataContext'
 
 const Scanner = () => {
 
   const [ScanResult,setScanResult] = useState({})
-  const {setdata} = useContext(DataContext)
 
   const handleManualSerialNumberChange=async(event)=>{
     event.preventDefault();
     const repo = {awb:event.target[0].value}
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     setScanResult(res.data)
-    setdata(res.data)
   }
 
   useEffect(() => {
@@ -85,6 +82,7 @@ const Scanner = () => {
           }
         </tr>
       </table>
+      <img src={ScanResult.photo1} alt="" />
     </div>
   )
 }

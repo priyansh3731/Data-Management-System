@@ -18,7 +18,6 @@ const Scanner = () => {
     setScanResult(res.data)
     const res2 = res.data
     setimages([...images,res2.photo1,res2.photo2,res2.video])
-    console.log(res2.photo1)
   }
 
 

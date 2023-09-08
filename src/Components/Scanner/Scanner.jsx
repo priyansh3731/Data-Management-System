@@ -22,6 +22,14 @@ const Scanner = () => {
   }
 
 
+  const handleManualSerialNumberChange2=async()=>{
+    const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb:6})
+    setScanResult(res.data)
+    const res2 = res.data
+    setimages([...images,res2.photo1,res2.photo2,res2.video])
+  }
+
+
     const handleDownloadClick = () => {
       const zip = new JSZip();
     
@@ -69,6 +77,7 @@ const Scanner = () => {
           if (isScanning) {
             const res = result
             setscan(res)
+            handleManualSerialNumberChange2()
             isScanning = false
           }
         }

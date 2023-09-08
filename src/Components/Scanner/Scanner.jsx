@@ -110,7 +110,7 @@ const Scanner = () => {
           <td>{ScanResult.category}</td>
           <td>{ScanResult.qty}</td>
           {
-            ScanResult._id?<td><Link to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
+            ScanResult._id?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
           }
 
           {

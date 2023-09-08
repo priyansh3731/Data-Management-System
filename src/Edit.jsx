@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios";
 import { useState } from "react";
+import "./App.css"
 
 
 export const Edit=()=>{
@@ -41,16 +42,16 @@ const handleFileUpload3=async(e)=>{
 
     return(
         <div>
-            <form onSubmit={submitHandler}>
+            <form className="editf" onSubmit={submitHandler}>
                 <label>photo1</label>
                 <input type="file" onChange={handleFileUpload1} required />
-
+                <br />
                 <label>photo2</label>
                 <input type="file" onChange={handleFileUpload2} required />
-
+                <br />
                 <label>video</label>
                 <input type="file" onChange={handleFileUpload3} required />
-
+                <br />
                 <button type="submit">submit</button>
             </form>
         </div>

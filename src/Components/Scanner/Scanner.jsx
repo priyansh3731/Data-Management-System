@@ -23,7 +23,7 @@ const Scanner = () => {
 
 
   const handleManualSerialNumberChange2=async()=>{
-    const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb:6})
+    const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb:scan})
     setScanResult(res.data)
     const res2 = res.data
     setimages([...images,res2.photo1,res2.photo2,res2.video])
@@ -91,8 +91,8 @@ const Scanner = () => {
   return (
     <div>
     <div id="reader"></div>
+    <h3 style={{color:"white"}}>{scan}</h3>
       <form onSubmit={handleManualSerialNumberChange} >
-        {scan}
         <input type='text' />
         <button type='submit' >submit</button>
       </form>

@@ -18,28 +18,37 @@ const Scanner = () => {
     setScanResult(res.data)
     const res2 = res.data
     setimages([...images,res2.photo1,res2.photo2,res2.video])
-    console.log(res2.video)
+    console.log(res2.photo1)
   }
 
 
-  const handleDownload = async () => {
-    const zip = new JSZip();
-    const image1Base64 = images[0]; // Replace with your image data
-    const image2Base64 = images[1]; // Replace with your image data
-    const videoBase64 = images[2] // Replace with your video data
+    const handleDownloadClick = () => {
+      const zip = new JSZip();
+    
+      // Create a folder inside the ZIP file
+      const folder = zip.folder('images');
   
-    // Add images and video to the zip file
-    zip.file('image1.jpg', image1Base64, { base64: true });
-    zip.file('image2.jpg', image2Base64, { base64: true });
-    zip.file('video.mp4', videoBase64, { base64: true });
+      // Add each image to the folder
+      images.forEach((imageData, index) => {
+        // Convert image data to Uint8Array
+        const data = atob(imageData.split(',')[1]);
+        const uint8Array = new Uint8Array(data.length);
+        for (let i = 0; i < data.length; i++) {
+          uint8Array[i] = data.charCodeAt(i);
+        }
+        
+        // Add the image to the folder with a unique name (e.g., image_1.jpg)
+        folder.file(`image_${index + 1}.jpg`, uint8Array);
+      });
   
-    // Generate the zip file
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
-  
-    // Save the zip file
-    saveAs(zipBlob, 'images_and_video.zip');
-  };
-  
+      // Generate the ZIP file
+      zip.generateAsync({ type: 'blob' }).then((content) => {
+        // Save the ZIP file using FileSaver.js
+        saveAs(content, 'images.zip');
+      });
+    };
+
+
 
 
 
@@ -106,7 +115,7 @@ const Scanner = () => {
           }
 
           {
-            ScanResult._id?<td><button onClick={handleDownload}>Download Images as ZIP</button></td>:""
+            ScanResult._id?<td><button onClick={handleDownloadClick}>Download Images as ZIP</button></td>:""
           }
         </tr>
       </table>

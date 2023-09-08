@@ -3,17 +3,45 @@ import { Html5QrcodeScanner } from 'html5-qrcode'
 import axios from 'axios'
 import "./Scanner.css"
 import { Link } from 'react-router-dom'
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const Scanner = () => {
 
   const [ScanResult,setScanResult] = useState({})
+  const [images,setimages] = useState([])
 
   const handleManualSerialNumberChange=async(event)=>{
     event.preventDefault();
     const repo = {awb:event.target[0].value}
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     setScanResult(res.data)
+    const res2 = res.data
+    setimages([...images,res2.photo1,res2.photo2,res2.video])
+    console.log(res2.video)
   }
+
+
+  const handleDownload = async () => {
+    const zip = new JSZip();
+    const image1Base64 = images[0]; // Replace with your image data
+    const image2Base64 = images[1]; // Replace with your image data
+    const videoBase64 = images[2] // Replace with your video data
+  
+    // Add images and video to the zip file
+    zip.file('image1.jpg', image1Base64, { base64: true });
+    zip.file('image2.jpg', image2Base64, { base64: true });
+    zip.file('video.mp4', videoBase64, { base64: true });
+  
+    // Generate the zip file
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+  
+    // Save the zip file
+    saveAs(zipBlob, 'images_and_video.zip');
+  };
+  
+
+
 
   useEffect(() => {
         const scanner = new Html5QrcodeScanner('reader', {
@@ -78,11 +106,10 @@ const Scanner = () => {
           }
 
           {
-            ScanResult._id?<td><Link>download</Link></td>:""
+            ScanResult._id?<td><button onClick={handleDownload}>Download Images as ZIP</button></td>:""
           }
         </tr>
       </table>
-      <img src={ScanResult.photo1} alt="" />
     </div>
   )
 }

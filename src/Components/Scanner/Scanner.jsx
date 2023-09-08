@@ -43,7 +43,7 @@ const Scanner = () => {
       // Generate the ZIP file
       zip.generateAsync({ type: 'blob' }).then((content) => {
         // Save the ZIP file using FileSaver.js
-        saveAs(content, 'images.zip');
+        saveAs(content, `${ScanResult.suborder_id}.zip`);
       });
     };
 

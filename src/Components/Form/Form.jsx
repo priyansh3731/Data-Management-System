@@ -56,7 +56,8 @@ const Form = () => {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      const res = data.map((data)=>([{...data,photo1:"",photo2:"",video:""}]))
+      const res = data.map((data)=>({...data,photo1:"",photo2:"",video:""}))
+      console.log(res)
       res.map((res)=>(axios.post("https://grumpy-jacket-lamb.cyclic.app/data",res)))
     navigate("/")
     }

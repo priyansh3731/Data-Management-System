@@ -4,6 +4,7 @@ import axios from 'axios'
 import "./Scanner.css"
 import { Link } from 'react-router-dom'
 import JSZip from 'jszip';
+import {BinData } from "bindata";
 import { saveAs } from 'file-saver';
 
 const Scanner = () => {
@@ -18,6 +19,8 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     setScanResult(res.data)
     const res2 = res.data
+    const demo = new BinData(0,"bA==")
+    console.log(demo)
     setimages([...images,res2.photo1,res2.photo2,res2.video])
   }
 

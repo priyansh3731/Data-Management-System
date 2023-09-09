@@ -1,5 +1,5 @@
 .editf{
-    max-width: 500px;
+    max-width: 1000px;
     display: block;
     margin: auto;
 }
@@ -7,16 +7,10 @@
 .editf label{
     color: white;
     text-align: center;
-    padding: 20px;
 }
 
 .editf input{
     color: white;
 }
 
-.editf button{
-    max-width: 100px;
-    display: block;
-    margin: auto;
-}
 

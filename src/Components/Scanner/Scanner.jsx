@@ -18,8 +18,7 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     setScanResult(res.data)
     const res2 = res.data
-    setimages([...images,res2.photo1,res2.photo2])
-    setvideos([...videos,res2.video])
+    setimages([...images,res2.photo1,res2.photo2,res2.video])
   }
 
 
@@ -27,8 +26,7 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb:scan})
     setScanResult(res.data)
     const res2 = res.data
-    setimages([...images,res2.photo1,res2.photo2])
-    setvideos([...videos,res2.video])
+    setimages([...images,res2.photo1,res2.photo2,res2.video])
   }
 
 
@@ -37,19 +35,15 @@ const Scanner = () => {
       
         const promises = images.map(async (imageUrl, index) => {
           try {
-            const response = await axios.get(imageUrl, { responseType: 'blob' });
+             if(index<2){
+              const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
-            zip.file(`image_${index + 1}.jpg`, blob); // You can customize the file names here
-          } catch (error) {
-            console.error(`Error fetching image ${index + 1}:`, error);
-          }
-        });
-
-        const vipro = videos.map(async (videoUrl, index) => {
-          try {
-            const response = await axios.get(videoUrl, { responseType: 'blob' });
+            zip.file(`image_${index + 1}.jpg`, blob);
+             }else{
+              const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
-            zip.file(`video_${index + 1}.mp4`, blob); // You can customize the file names here
+            zip.file(`video_${index + 1}.mp4`, blob);
+             }
           } catch (error) {
             console.error(`Error fetching image ${index + 1}:`, error);
           }
@@ -57,7 +51,6 @@ const Scanner = () => {
       
         // Wait for all image downloads to complete
         await Promise.all(promises);
-        await Promise.all(vipro)
       
         // Generate the zip file
         zip.generateAsync({ type: 'blob' }).then((content) => {

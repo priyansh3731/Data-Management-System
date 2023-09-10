@@ -38,6 +38,7 @@ const Scanner = () => {
              if(index<2){
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
+            console.log(blob)
             zip.file(`image_${index + 1}.jpg`, blob);
              }else{
               const response = await axios.get(imageUrl, { responseType: 'blob' });
@@ -135,7 +136,7 @@ const Scanner = () => {
           }
         </tr>
       </table>
-      <img src={ScanResult.photo1} />
+      <a href={ScanResult.photo1} download={ScanResult.photo1}>hello</a>
     </div>
   )
 }

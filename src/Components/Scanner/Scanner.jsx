@@ -4,13 +4,12 @@ import axios from 'axios'
 import "./Scanner.css"
 import { Link } from 'react-router-dom'
 import JSZip from 'jszip';
-import {BinData } from "bindata";
-import { saveAs } from 'file-saver';
 
 const Scanner = () => {
 
   const [ScanResult,setScanResult] = useState({})
   const [images,setimages] = useState([])
+  const [videos,setvideos] =useState([])
   const [scan,setscan] = useState(null)
 
   const handleManualSerialNumberChange=async(event)=>{
@@ -19,9 +18,8 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     setScanResult(res.data)
     const res2 = res.data
-    const demo = new BinData(0,"bA==")
-    console.log(demo)
-    setimages([...images,res2.photo1,res2.photo2,res2.video])
+    setimages([...images,res2.photo1,res2.photo2])
+    setvideos([...videos,res2.video])
   }
 
 
@@ -29,35 +27,73 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb:scan})
     setScanResult(res.data)
     const res2 = res.data
-    setimages([...images,res2.photo1,res2.photo2,res2.video])
+    setimages([...images,res2.photo1,res2.photo2])
+    setvideos([...videos,res2.video])
   }
 
 
-    const handleDownloadClick = () => {
-      const zip = new JSZip();
+    const handleDownloadClick =async() => {
+      // const zip = new JSZip();
     
-      // Create a folder inside the ZIP file
-      const folder = zip.folder('images');
+      // // Create a folder inside the ZIP file
+      // const folder = zip.folder(`${ScanResult.suborder_id}`);
   
-      // Add each image to the folder
-      images.forEach((imageData, index) => {
-        // Convert image data to Uint8Array
-        const data = atob(imageData.split(',')[1]);
-        const uint8Array = new Uint8Array(data.length);
-        for (let i = 0; i < data.length; i++) {
-          uint8Array[i] = data.charCodeAt(i);
-        }
+      // // Add each image to the folder
+      // images.forEach((imageData, index) => {
+      //   // Convert image data to Uint8Array
+      //   const data = atob(imageData.split(',')[1]);
+      //   const uint8Array = new Uint8Array(data.length);
+      //   for (let i = 0; i < data.length; i++) {
+      //     uint8Array[i] = data.charCodeAt(i);
+      //   }
         
-        // Add the image to the folder with a unique name (e.g., image_1.jpg)
-        folder.file(`image_${index + 1}.jpg`, uint8Array);
-      });
+      //   // Add the image to the folder with a unique name (e.g., image_1.jpg)
+      //   folder.file(`image_${index + 1}.jpg`, uint8Array);
+      // });
   
-      // Generate the ZIP file
-      zip.generateAsync({ type: 'blob' }).then((content) => {
-        // Save the ZIP file using FileSaver.js
-        saveAs(content, `${ScanResult.suborder_id}.zip`);
-      });
-    };
+      // // Generate the ZIP file
+      // zip.generateAsync({ type: 'blob' }).then((content) => {
+      //   // Save the ZIP file using FileSaver.js
+      //   saveAs(content, `${ScanResult.suborder_id}.zip`);
+      // });
+
+        const zip = new JSZip();
+      
+        const promises = images.map(async (imageUrl, index) => {
+          try {
+            const response = await axios.get(imageUrl, { responseType: 'blob' });
+            const blob = response.data;
+            zip.file(`image_${index + 1}.jpg`, blob); // You can customize the file names here
+          } catch (error) {
+            console.error(`Error fetching image ${index + 1}:`, error);
+          }
+        });
+
+        const vipro = videos.map(async (videoUrl, index) => {
+          try {
+            const response = await axios.get(videoUrl, { responseType: 'blob' });
+            const blob = response.data;
+            zip.file(`video_${index + 1}.mp4`, blob); // You can customize the file names here
+          } catch (error) {
+            console.error(`Error fetching image ${index + 1}:`, error);
+          }
+        });
+      
+        // Wait for all image downloads to complete
+        await Promise.all(promises);
+        await Promise.all(vipro)
+      
+        // Generate the zip file
+        zip.generateAsync({ type: 'blob' }).then((content) => {
+          const url = window.URL.createObjectURL(content);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'images.zip'; // Set the desired zip file name
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
+      };
 
 
 

@@ -22,23 +22,35 @@ const submitHandler=async(e)=>{
 }
 
 const handleFileUpload1=async(e)=>{
+    const data = new FormData()
     const file = e.target.files[0]
-    const base64 = await convertToBase64(file)
-    setphoto1(base64)
+    data.append("file", file);
+    data.append("upload_preset","oi1uugwe")
+
+      const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
+    setphoto1(res.data.url)
 }
 
+
 const handleFileUpload2=async(e)=>{
+    const data = new FormData()
     const file = e.target.files[0]
-    const base64 = await convertToBase64(file)
-    console.log(base64)
-    setphoto2(base64)
+    data.append("file", file);
+    data.append("upload_preset","oi1uugwe")
+
+      const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
+    setphoto2(res.data.url)
 }
 
 const handleFileUpload3=async(e)=>{
+    const data = new FormData()
     const file = e.target.files[0]
-    const base64 = await convertToBase64(file)
-    console.log(base64)
-    setvideo(base64)
+    data.append("file", file);
+    data.append("upload_preset","oi1uugwe")
+
+      const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/video/upload`,data);
+    setvideo(res.data.url)
+    console.log(res.data.url)
 }
 
 
@@ -58,17 +70,4 @@ const handleFileUpload3=async(e)=>{
             </form>
         </div>
     )
-}
-
-function convertToBase64(file){
-    return new Promise((resolve,reject)=>{
-        const filereader = new FileReader();
-        filereader.readAsDataURL(file);
-        filereader.onload=()=>{
-            resolve(filereader.result)
-        }
-        filereader.onerror=(error)=>{
-            reject(error)
-        }
-    })
 }

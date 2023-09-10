@@ -28,7 +28,10 @@ const handleFileUpload1=async(e)=>{
     data.append("upload_preset","oi1uugwe")
 
       const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
-    setphoto1(res.data.url)
+      const repo = res.data.url
+      const str = repo.split(":")
+      const str2 = ["https:",str[1]]
+      setphoto1(str2.join(""))
 }
 
 
@@ -39,7 +42,10 @@ const handleFileUpload2=async(e)=>{
     data.append("upload_preset","oi1uugwe")
 
       const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
-    setphoto2(res.data.url)
+    const repo = res.data.url
+    const str = repo.split(":")
+    const str2 = ["https:",str[1]]
+    setphoto2(str2.join(""))
 }
 
 const handleFileUpload3=async(e)=>{
@@ -49,8 +55,10 @@ const handleFileUpload3=async(e)=>{
     data.append("upload_preset","oi1uugwe")
 
       const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/video/upload`,data);
-    setvideo(res.data.url)
-    console.log(res.data.url)
+      const repo = res.data.url
+      const str = repo.split(":")
+      const str2 = ["https:",str[1]]
+      setvideo(str2.join(""))
 }
 
 

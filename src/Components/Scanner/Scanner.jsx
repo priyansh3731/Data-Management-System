@@ -135,6 +135,7 @@ const Scanner = () => {
           }
         </tr>
       </table>
+      <img src={ScanResult.photo1} />
     </div>
   )
 }

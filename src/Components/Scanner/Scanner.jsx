@@ -33,30 +33,6 @@ const Scanner = () => {
 
 
     const handleDownloadClick =async() => {
-      // const zip = new JSZip();
-    
-      // // Create a folder inside the ZIP file
-      // const folder = zip.folder(`${ScanResult.suborder_id}`);
-  
-      // // Add each image to the folder
-      // images.forEach((imageData, index) => {
-      //   // Convert image data to Uint8Array
-      //   const data = atob(imageData.split(',')[1]);
-      //   const uint8Array = new Uint8Array(data.length);
-      //   for (let i = 0; i < data.length; i++) {
-      //     uint8Array[i] = data.charCodeAt(i);
-      //   }
-        
-      //   // Add the image to the folder with a unique name (e.g., image_1.jpg)
-      //   folder.file(`image_${index + 1}.jpg`, uint8Array);
-      // });
-  
-      // // Generate the ZIP file
-      // zip.generateAsync({ type: 'blob' }).then((content) => {
-      //   // Save the ZIP file using FileSaver.js
-      //   saveAs(content, `${ScanResult.suborder_id}.zip`);
-      // });
-
         const zip = new JSZip();
       
         const promises = images.map(async (imageUrl, index) => {
@@ -88,7 +64,7 @@ const Scanner = () => {
           const url = window.URL.createObjectURL(content);
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'images.zip'; // Set the desired zip file name
+          a.download = `${ScanResult.suborder_id}.zip`; // Set the desired zip file name
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);

@@ -39,12 +39,12 @@ const Scanner = () => {
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
             console.log(blob)
-            zip.file(`image_${index + 1}.jpg`, blob)}
-            //  }else{
-            //   const response = await axios.get(imageUrl, { responseType: 'blob' });
-            // const blob = response.data;
-            // zip.file(`video_${index + 1}.mp4`, blob);
-            //  }
+            zip.file(`image_${index + 1}.jpg`, blob)
+             }else{
+              const response = await axios.get(imageUrl, { responseType: 'blob' });
+            const blob = response.data;
+            zip.file(`video_${index + 1}.mp4`, blob);
+             }
           } catch (error) {
             console.error(`Error fetching image ${index + 1}:`, error);
           }

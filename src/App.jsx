@@ -5,6 +5,9 @@ import Navbar from './Components/Navbar/Navbar'
 import Scanner from './Components/Scanner/Scanner'
 import Form from './Components/Form/Form'
 import { Edit } from './Edit'
+import { Login } from './login'
+import { AllData } from './alldata'
+import { Login2 } from './login2'
 
 const App = () => {
   return (
@@ -15,6 +18,9 @@ const App = () => {
       <Route path='/form' element={<Form />}/>
       <Route path="/scan" element={<Scanner />}/>
       <Route path='/edit/:id' element={<Edit />}/>
+      <Route path='/login' element={<Login />}></Route>
+      <Route path='/alldata' element={<AllData />}></Route>
+      <Route path='/login2' element={<Login2 />}></Route>
     </Routes>
     </Router>
   )

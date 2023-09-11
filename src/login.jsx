@@ -24,10 +24,11 @@ export const Login=()=>{
     return(
         <div>
             <form onSubmit={submitHandler}>
-                <label>email</label>
+                <h2>login</h2>
+                <label style={{color:"white"}}>email</label>
                 <input type="text" onChange={(e)=>setemail(e.target.value)} required />
-
-                <label>password</label>
+                <br />
+                <label style={{color:"white"}}>password</label>
                 <input type="password" onChange={(e)=>setpassword(e.target.value)} required />
 
                 <button type="submit">submit</button>

@@ -7,7 +7,6 @@ import Form from './Components/Form/Form'
 import { Edit } from './Edit'
 import { Login } from './login'
 import { AllData } from './alldata'
-import { Login2 } from './login2'
 
 const App = () => {
   return (
@@ -20,7 +19,6 @@ const App = () => {
       <Route path='/edit/:id' element={<Edit />}/>
       <Route path='/login' element={<Login />}></Route>
       <Route path='/alldata' element={<AllData />}></Route>
-      <Route path='/login2' element={<Login2 />}></Route>
     </Routes>
     </Router>
   )

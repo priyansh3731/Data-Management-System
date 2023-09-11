@@ -21,7 +21,7 @@ const Home = () => {
     }
 
     const allHandler = () => {
-      navigate("/login2")
+      navigate("/alldata")
     }
   return (
     <>

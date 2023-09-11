@@ -24,7 +24,7 @@ export const Login=()=>{
     return(
         <div>
             <form onSubmit={submitHandler}>
-                <h2>login</h2>
+                <h2 style={{color:"white"}}>login</h2>
                 <label style={{color:"white"}}>email</label>
                 <input type="text" onChange={(e)=>setemail(e.target.value)} required />
                 <br />

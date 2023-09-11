@@ -13,7 +13,7 @@ export const AllData=()=>{
       
         const promises = images.map(async (imageUrl, index) => {
           try {
-             if(index<2){
+             if(index<=1){
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
             zip.file(`image_${index + 1}.jpg`, blob)

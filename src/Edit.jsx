@@ -30,8 +30,8 @@ const handleFileUpload1=async(e)=>{
       const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
       const repo = res.data.url
       const str = repo.split(":")
-      const str2 = ["https:",str[1]]
-      setphoto1(str2.join(""))
+      const str3 = str2.join("")
+      setphoto1(str3)
 }
 
 
@@ -44,8 +44,8 @@ const handleFileUpload2=async(e)=>{
       const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
     const repo = res.data.url
     const str = repo.split(":")
-    const str2 = ["https:",str[1]]
-    setphoto2(str2.join(""))
+    const str3 = str2.join("")
+      setphoto2(str3)
 }
 
 const handleFileUpload3=async(e)=>{
@@ -58,7 +58,8 @@ const handleFileUpload3=async(e)=>{
       const repo = res.data.url
       const str = repo.split(":")
       const str2 = ["https:",str[1]]
-      setvideo(str2.join(""))
+      const str3 = str2.join("")
+      setvideo(str3)
 }
 
 

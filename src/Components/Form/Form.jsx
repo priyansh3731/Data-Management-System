@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as XLSX from "xlsx";
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 import "./Form.css"
 
 const Form = () => {
@@ -37,7 +39,6 @@ const Form = () => {
                 }
                 else{
                 const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data", formData)
-                console.log(res.data)
                 navigate('/')
                 }
             }
@@ -45,6 +46,7 @@ const Form = () => {
                 console.error(error)
               }
     }
+
 
     const excelHandler=async(e)=>{
         e.preventDefault();
@@ -57,7 +59,6 @@ const Form = () => {
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
       const res = data.map((data)=>({...data,photo1:"",photo2:"",video:""}))
-      console.log(res)
       res.map((res)=>(axios.post("https://grumpy-jacket-lamb.cyclic.app/data",res)))
     navigate("/")
     }

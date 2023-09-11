@@ -1,88 +1,86 @@
-import axios from "axios"
-import JSZip from "jszip"
-import { useEffect, useState } from "react"
+import axios from "axios";
+import JSZip from "jszip";
+import { useEffect, useState } from "react";
 
+export const AllData = () => {
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Change this to the number of items you want per page
 
-export const AllData=()=>{
-    const [data,setdata]=useState([])
+  const handleDownloadClick = async ({ e, photo1, photo2, video, suborder_id }) => {
+    // ... (your existing download code)
+  };
 
+  const dataHandler = async () => {
+    const res = await axios.get("https://grumpy-jacket-lamb.cyclic.app/data");
+    setData(res.data);
+  };
 
-    const handleDownloadClick =async({e,photo1,photo2,video,suborder_id}) => {
-        const images = [photo1,photo2,video]
-        const zip = new JSZip();
-      
-        const promises = images.map(async (imageUrl, index) => {
-          try {
-            console.log(imageUrl)
-             if(index<=1){
-              const response = await axios.get(imageUrl, { responseType: 'blob' });
-            const blob = response.data;
-            zip.file(`image_${index + 1}.jpg`, blob)
-             }else{
-              const response = await axios.get(imageUrl, { responseType: 'blob' });
-            const blob = response.data;
-            console.log(blob)
-            zip.file(`video.mp4`, blob);
-             }
-          } catch (error) {
-            console.error(`Error fetching image ${index + 1}:`, error);
-          }
-        });
-      
-        // Wait for all image downloads to complete
-        await Promise.all(promises);
-      
-        // Generate the zip file
-        zip.generateAsync({ type: 'blob' }).then((content) => {
-          const url = window.URL.createObjectURL(content);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `${suborder_id}.zip`; // Set the desired zip file name
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-        });
-      };
+  useEffect(() => {
+    dataHandler();
+  }, []);
 
-    const dataHander=async()=>{
-        const res = await axios.get("https://grumpy-jacket-lamb.cyclic.app/data")
-        setdata(res.data)
-    }
+  // Calculate the indexes for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
 
-    useEffect(()=>{dataHander()},[])
+  // Change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
-
-    return(
-        <table>
-        <tr>
-          <th>awb</th>
-          <th>firmname</th>
-          <th>suborder_id</th>
-          <th>returnType</th>
-          <th>sku</th>
-          <th>category</th>
-          <th>qty</th>
-          <th>download</th>
-        </tr>
-        {
-            data.map(({_id,awb,firmname,suborder_id,returnType,sku,category,qty,photo1,photo2,video})=>{
-                return(
-                    <tr>
-                        <td>{awb}</td>
-                        <td>{firmname}</td>
-                        <td>{suborder_id}</td>
-                        <td>{returnType}</td>
-                        <td>{sku}</td>
-                        <td>{category}</td>
-                        <td>{qty}</td>
-
-                        {
-                          _id?<td><button onClick={(e)=>handleDownloadClick({e,photo1,photo2,video,suborder_id})}>Download Images as ZIP</button></td>:""
-                        }
-                    </tr>
-                )
-            })
-        }
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>awb</th>
+            <th>firmname</th>
+            <th>suborder_id</th>
+            <th>returnType</th>
+            <th>sku</th>
+            <th>category</th>
+            <th>qty</th>
+            <th>download</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.map(({ _id, awb, firmname, suborder_id, returnType, sku, category, qty, photo1, photo2, video }) => {
+            return (
+              <tr key={_id}>
+                <td>{awb}</td>
+                <td>{firmname}</td>
+                <td>{suborder_id}</td>
+                <td>{returnType}</td>
+                <td>{sku}</td>
+                <td>{category}</td>
+                <td>{qty}</td>
+                <td>
+                  {_id ? (
+                    <button onClick={(e) => handleDownloadClick({ e, photo1, photo2, video, suborder_id })}>
+                      Download Images as ZIP
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
-    )
-}
+      <div className="pagination">
+        {data.length > itemsPerPage && (
+          <ul style={{margin:"auto", maxWidth:"100px"}}>
+            {Array.from({ length: Math.ceil(data.length / itemsPerPage) }).map((_, index) => (
+              <li style={{display:"inline",margin:"10px"}} key={index}>
+                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};

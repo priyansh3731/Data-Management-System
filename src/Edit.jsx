@@ -11,6 +11,7 @@ export const Edit=()=>{
     const [photo1,setphoto1] = useState()
     const [photo2,setphoto2] = useState()
     const [video,setvideo] = useState()
+    const [button,setbutton] = useState(true)
 
 const submitHandler=async(e)=>{
   e.preventDefault();
@@ -62,6 +63,9 @@ const handleFileUpload3=async(e)=>{
       const str2 = ["https:",str[1]]
       const str3 = str2.join("")
       setvideo(str3)
+      if(str3){
+        setbutton(false)
+      }
 }
 
 
@@ -77,7 +81,7 @@ const handleFileUpload3=async(e)=>{
                 <label>video</label>
                 <input type="file" onChange={handleFileUpload3} required />
                 <br />
-                <button type="submit">submit</button>
+                <button disabled={button} type="submit">submit</button>
             </form>
         </div>
     )

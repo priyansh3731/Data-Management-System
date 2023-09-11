@@ -13,6 +13,7 @@ export const AllData=()=>{
       
         const promises = images.map(async (imageUrl, index) => {
           try {
+            console.log(imageUrl)
              if(index<=1){
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
@@ -20,7 +21,8 @@ export const AllData=()=>{
              }else{
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
-            zip.file(`video_${index + 1}.mp4`, blob);
+            console.log(blob)
+            zip.file(`video.mp4`, blob);
              }
           } catch (error) {
             console.error(`Error fetching image ${index + 1}:`, error);

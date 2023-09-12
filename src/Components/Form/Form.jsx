@@ -65,8 +65,40 @@ const Form = () => {
     reader.readAsBinaryString(file);
 }
 
+
+function generateXLSXData1() {
+    const data1 = [
+        ['awb', 'firmname', 'suborder_id', 'returnType', 'sku', 'category', 'qty']
+    ];
+  
+    const ws = XLSX.utils.json_to_sheet(data1);
+    const wb = XLSX.utils.book_new();
+    console.log(ws,wb)
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+    return XLSX.write(wb, { type: 'binary' });
+  }
+  
+  async function createZipArchive() {
+    const zip = new JSZip();
+  
+    zip.file('file1.xlsx', generateXLSXData1());
+  
+    const content = await zip.generateAsync({ type: 'blob' });
+    return content;
+  }
+
+
+  async function handleDownload() {
+    const zipBlob = await createZipArchive();
+    saveAs(zipBlob, 'xlsx_files.zip');
+  }
+  
+  
+  
+
   return (
     <div className=''>
+        <button onClick={handleDownload}>Download Zip</button>
         <form className='form' >
             <label >AWB Number</label>
             <input type="number" onChange={(e) => setAwb(e.target.value)} value={awb}/>

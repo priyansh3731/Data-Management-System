@@ -10,7 +10,7 @@ const Navbar = () => {
     }
   return (
     <div className='nav'>
-        <h2 className='nav__name' onClick={homeNavigate}>Data Management System</h2>
+        <h2 className='nav__name' onClick={homeNavigate}>Return Management System</h2>
     </div>
   )
 }

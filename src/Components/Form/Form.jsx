@@ -105,7 +105,7 @@ function generateXLSXData1() {
             <label >Firm Name</label>
             <input type="text" onChange={(e) => setFirmName(e.target.value)} value={firmName}/>
             <label >Suborder Id</label>
-            <input type="number" onChange={(e) => setSborder(e.target.value)} value={sborder}/>
+            <input type="text" onChange={(e) => setSborder(e.target.value)} value={sborder}/>
             <label >Return Type</label>
             <input type="text" onChange={(e) => setRtype(e.target.value)} value={rtype}/>
             <label >SKU</label>

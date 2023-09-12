@@ -101,11 +101,10 @@ const Scanner = () => {
     <div id="reader"></div>
     <h3 style={{color:"white"}}>{scan}</h3>
       <form onSubmit={handleManualSerialNumberChange} >
-        <input type='text' />
+        <input value={ScanResult.message} type='text' />
         <button type='submit' >submit</button>
       </form>
 
-      <div className='mes'>{ScanResult.message}</div>
       <table key={ScanResult._id}>
         <tr>
           <th>awb</th>

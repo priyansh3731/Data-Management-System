@@ -101,7 +101,7 @@ const Scanner = () => {
     <div id="reader"></div>
     <h3 style={{color:"white"}}>{scan}</h3>
       <form onSubmit={handleManualSerialNumberChange} >
-        <input value={ScanResult.message} type='text' />
+        <input value={ScanResult.suborder_id} type='text' />
         <button type='submit' >submit</button>
       </form>
 

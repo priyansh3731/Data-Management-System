@@ -72,10 +72,10 @@ export const AllData = () => {
       </table>
       <div className="pagination">
         {data.length > itemsPerPage && (
-          <ul style={{margin:"auto", maxWidth:"100px"}}>
+          <ul style={{margin:"auto", maxWidth:"1000px"}}>
             {Array.from({ length: Math.ceil(data.length / itemsPerPage) }).map((_, index) => (
               <li style={{display:"inline",margin:"10px"}} key={index}>
-                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
+                <button style={{padding:"10px"}} onClick={() => paginate(index + 1)}>{index + 1}</button>
               </li>
             ))}
           </ul>

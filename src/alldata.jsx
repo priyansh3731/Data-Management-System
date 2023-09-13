@@ -91,7 +91,7 @@ export const AllData = () => {
                 <td>{Barcode_id}</td>
                 <td>{qty}</td>
                 <td>
-                  {_id ? (
+                  {Barcode_id ? (
                     <button onClick={(e) => handleDownloadClick({ e, photo1, photo2,photo3, video, suborder_id })}>
                       Download Images as ZIP
                     </button>

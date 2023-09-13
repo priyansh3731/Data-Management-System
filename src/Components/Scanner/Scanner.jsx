@@ -9,7 +9,6 @@ const Scanner = () => {
 
   const [ScanResult,setScanResult] = useState({})
   const [images,setimages] = useState([])
-  const [videos,setvideos] =useState([])
   const [scan,setscan] = useState(null)
 
   const handleManualSerialNumberChange=async(event)=>{
@@ -18,7 +17,7 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",repo)
     setScanResult(res.data)
     const res2 = res.data
-    setimages([...images,res2.photo1,res2.photo2,res2.video])
+    setimages([...images,res2.photo1,res2.photo2,res2.photo3,res2.video])
   }
 
 
@@ -26,7 +25,7 @@ const Scanner = () => {
     const res = await axios.post("https://grumpy-jacket-lamb.cyclic.app/data/search",{awb:scan})
     setScanResult(res.data)
     const res2 = res.data
-    setimages([...images,res2.photo1,res2.photo2,res2.video])
+    setimages([res2.photo1,res2.photo2,res2.photo3,res2.video])
   }
 
 
@@ -35,7 +34,7 @@ const Scanner = () => {
       
         const promises = images.map(async (imageUrl, index) => {
           try {
-             if(index<2){
+             if(index<3){
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
             zip.file(`image_${index + 1}.jpg`, blob)
@@ -113,6 +112,7 @@ const Scanner = () => {
           <th>sku</th>
           <th>category</th>
           <th>qty</th>
+          <th>Barcode_id</th>
           <th>edit</th>
           <th>download</th>
         </tr>
@@ -125,11 +125,14 @@ const Scanner = () => {
           <td>{ScanResult.category}</td>
           <td>{ScanResult.qty}</td>
           {
-            ScanResult._id?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
+            ScanResult.returnType==="dto"?<td>{ScanResult.Barcode_id}</td>:""
+          }
+          {
+            ScanResult.returnType==="dto"?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
           }
 
           {
-            ScanResult._id?<td><button onClick={handleDownloadClick}>Download Images as ZIP</button></td>:""
+            ScanResult.returnType==="dto"?<td><button onClick={handleDownloadClick}>Download Images as ZIP</button></td>:""
           }
         </tr>
       </table>

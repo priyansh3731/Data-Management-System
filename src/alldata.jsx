@@ -7,8 +7,40 @@ export const AllData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Change this to the number of items you want per page
 
-  const handleDownloadClick = async ({ e, photo1, photo2, video, suborder_id }) => {
-    // ... (your existing download code)
+  const handleDownloadClick = async ({ e, photo1, photo2,photo3, video, suborder_id }) => {
+    const images = [photo1,photo2,photo3,video]
+    
+    const zip = new JSZip();
+      
+        const promises = images.map(async (imageUrl, index) => {
+          try {
+             if(index<3){
+              const response = await axios.get(imageUrl, { responseType: 'blob' });
+            const blob = response.data;
+            zip.file(`image_${index + 1}.jpg`, blob)
+             }else{
+              const response = await axios.get(imageUrl, { responseType: 'blob' });
+            const blob = response.data;
+            zip.file(`video_${index + 1}.mp4`, blob);
+             }
+          } catch (error) {
+            console.error(`Error fetching image ${index + 1}:`, error);
+          }
+        });
+      
+        // Wait for all image downloads to complete
+        await Promise.all(promises);
+      
+        // Generate the zip file
+        zip.generateAsync({ type: 'blob' }).then((content) => {
+          const url = window.URL.createObjectURL(content);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${suborder_id}.zip`; // Set the desired zip file name
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
   };
 
   const dataHandler = async () => {
@@ -41,12 +73,13 @@ export const AllData = () => {
             <th>returnType</th>
             <th>sku</th>
             <th>category</th>
+            <th>Barcode_id</th>
             <th>qty</th>
             <th>download</th>
           </tr>
         </thead>
         <tbody>
-          {currentData.map(({ _id, awb, firmname, suborder_id, returnType, sku, category, qty, photo1, photo2, video }) => {
+          {currentData.map(({ _id, awb, firmname, suborder_id, returnType, sku, category, qty,Barcode_id, photo1, photo2,photo3, video }) => {
             return (
               <tr key={_id}>
                 <td>{awb}</td>
@@ -55,10 +88,11 @@ export const AllData = () => {
                 <td>{returnType}</td>
                 <td>{sku}</td>
                 <td>{category}</td>
+                <td>{Barcode_id}</td>
                 <td>{qty}</td>
                 <td>
                   {_id ? (
-                    <button onClick={(e) => handleDownloadClick({ e, photo1, photo2, video, suborder_id })}>
+                    <button onClick={(e) => handleDownloadClick({ e, photo1, photo2,photo3, video, suborder_id })}>
                       Download Images as ZIP
                     </button>
                   ) : (

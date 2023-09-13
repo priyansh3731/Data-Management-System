@@ -2,25 +2,45 @@ import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios";
 import { useState } from "react";
 import "./App.css"
+import { CloudinaryTransformable } from "@cloudinary/url-gen/assets/CloudinaryTransformable";
 
 
 export const Edit=()=>{
 
     const {id} = useParams();
     const navigate = useNavigate();
+    const [Barcode_id,setBarcode_id] = useState()
     const [photo1,setphoto1] = useState()
     const [photo2,setphoto2] = useState()
+    const [photo3,setphoto3] = useState()
     const [video,setvideo] = useState()
+    const [qty,setqty] = useState()
     const [button,setbutton] = useState(true)
 
 const submitHandler=async(e)=>{
   e.preventDefault();
-  const res = {photo1:photo1,photo2:photo2,video:video}
+  const res = {photo1:photo1,photo2:photo2,photo3:photo3,video:video,Barcode_id:Barcode_id,qty:qty}
 
-  await axios.put(`https://grumpy-jacket-lamb.cyclic.app/data/${id}`,res);
-
+  const repo = await axios.put(`https://grumpy-jacket-lamb.cyclic.app/data/${id}`,res);
+  console.log(repo)
   navigate('/')
 }
+
+
+const handleFileUpload5=async(e)=>{
+  const file = e.target.value[0]
+    setBarcode_id(file)
+    console.log(file)
+}
+
+
+const handleFileUpload6=async(e)=>{
+  const file = e.target.value[0]
+    setqty(file)
+    console.log(file)
+}
+
+
 
 const handleFileUpload1=async(e)=>{
     const data = new FormData()
@@ -69,17 +89,43 @@ const handleFileUpload3=async(e)=>{
 }
 
 
+
+const handleFileUpload4=async(e)=>{
+  const data = new FormData()
+  const file = e.target.files[0]
+  data.append("file", file);
+  data.append("upload_preset","oi1uugwe")
+
+    const res = await axios.post(`https://api.cloudinary.com/v1_1/dabaj1pou/image/upload`,data);
+    const repo = res.data.url
+    const str = repo.split(":")
+    const str2 = ["https:",str[1]]
+    const str3 = str2.join("")
+    console.log(str3)
+    setphoto3(str3)
+}
+
+
     return(
         <div>
             <form className="editf" onSubmit={submitHandler}>
-                <label>photo1</label>
+                <label>Barcode Id : </label>
+                <input style={{width:"200px",color:"black"}} onChange={handleFileUpload5} type="text" required />
+                <br />
+                <label>Barcode Image : </label>
+                <input style={{width:"200px"}} type="file" onChange={handleFileUpload4} required />
+                <br />
+                <label>Bill photo : </label>
                 <input type="file" onChange={handleFileUpload1} required />
                 <br />
-                <label>photo2</label>
+                <label>Product Image : </label>
                 <input type="file" onChange={handleFileUpload2} required />
                 <br />
-                <label>video</label>
+                <label>video : </label>
                 <input type="file" onChange={handleFileUpload3} required />
+                <br />
+                <label>qty : </label>
+                <input style={{width:"200px",color:"black"}} type="number" onChange={handleFileUpload6} required />
                 <br />
                 <button disabled={button} type="submit">submit</button>
             </form>

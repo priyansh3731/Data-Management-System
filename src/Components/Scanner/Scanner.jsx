@@ -142,7 +142,9 @@ const Scanner = () => {
           {
             ScanResult.returnType==="Customer Return"?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
           }
-
+          {
+            ScanResult.returnType==="Courier Return"?<td><Link className='edit' to={`/editable/${ScanResult._id}`}>edit</Link></td>:""
+          }
           {
             ScanResult.returnType==="Customer Return"?<td><button onClick={handleDownloadClick}>Download Images as ZIP</button></td>:""
           }

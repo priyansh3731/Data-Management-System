@@ -7,6 +7,7 @@ import Form from './Components/Form/Form'
 import { Edit } from './Edit'
 import { Login } from './login'
 import { AllData } from './alldata'
+import { Editable } from './Editable'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Route path='/edit/:id' element={<Edit />}/>
       <Route path='/login' element={<Login />}></Route>
       <Route path='/alldata' element={<AllData />}></Route>
+      <Route path='/editable/:id' element={<Editable />}></Route>
     </Routes>
     </Router>
   )

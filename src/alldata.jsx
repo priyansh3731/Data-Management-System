@@ -1,6 +1,7 @@
 import axios from "axios";
 import JSZip from "jszip";
 import { useEffect, useState } from "react";
+import "./App.css"
 
 export const AllData = () => {
   const [data, setData] = useState([]);
@@ -17,6 +18,7 @@ export const AllData = () => {
              if(index<3){
               const response = await axios.get(imageUrl, { responseType: 'blob' });
             const blob = response.data;
+            console.log(index)
             zip.file(`image_${index + 1}.jpg`, blob)
              }else{
               const response = await axios.get(imageUrl, { responseType: 'blob' });
@@ -64,8 +66,7 @@ export const AllData = () => {
 
   return (
     <div>
-      <table>
-        <thead>
+      <table className="all">
           <tr>
             <th>awb</th>
             <th>firmname</th>
@@ -77,7 +78,6 @@ export const AllData = () => {
             <th>qty</th>
             <th>download</th>
           </tr>
-        </thead>
         <tbody>
           {currentData.map(({ _id, awb, firmname, suborder_id, returnType, sku, category, qty,Barcode_id, photo1, photo2,photo3, video }) => {
             return (

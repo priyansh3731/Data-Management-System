@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios";
 import { useState } from "react";
-import "./App.css"
-import { CloudinaryTransformable } from "@cloudinary/url-gen/assets/CloudinaryTransformable";
+import "./Components/Form/Form.css"
 
 
 export const Edit=()=>{
@@ -22,7 +21,6 @@ const submitHandler=async(e)=>{
   const res = {photo1:photo1,photo2:photo2,photo3:photo3,video:video,Barcode_id:Barcode_id,qty:qty}
 
   const repo = await axios.put(`https://grumpy-jacket-lamb.cyclic.app/data/${id}`,res);
-  console.log(repo)
   navigate('/')
 }
 
@@ -30,14 +28,12 @@ const submitHandler=async(e)=>{
 const handleFileUpload5=async(e)=>{
   const file = e.target.value[0]
     setBarcode_id(file)
-    console.log(file)
 }
 
 
 const handleFileUpload6=async(e)=>{
   const file = e.target.value[0]
     setqty(file)
-    console.log(file)
 }
 
 
@@ -68,6 +64,7 @@ const handleFileUpload2=async(e)=>{
     const str = repo.split(":")
     const str2 = ["https:",str[1]]
     const str3 = str2.join("")
+    console.log(str3)
     setphoto2(str3)
 }
 
@@ -101,19 +98,18 @@ const handleFileUpload4=async(e)=>{
     const str = repo.split(":")
     const str2 = ["https:",str[1]]
     const str3 = str2.join("")
-    console.log(str3)
     setphoto3(str3)
 }
 
 
     return(
-        <div>
-            <form className="editf" onSubmit={submitHandler}>
+        <div className="">
+            <form className='form' onSubmit={submitHandler}>
                 <label>Barcode Id : </label>
-                <input style={{width:"200px",color:"black"}} onChange={handleFileUpload5} type="text" required />
+                <input onChange={handleFileUpload5} type="text" required />
                 <br />
                 <label>Barcode Image : </label>
-                <input style={{width:"200px"}} type="file" onChange={handleFileUpload4} required />
+                <input type="file" onChange={handleFileUpload4} required />
                 <br />
                 <label>Bill photo : </label>
                 <input type="file" onChange={handleFileUpload1} required />
@@ -125,7 +121,7 @@ const handleFileUpload4=async(e)=>{
                 <input type="file" onChange={handleFileUpload3} required />
                 <br />
                 <label>qty : </label>
-                <input style={{width:"200px",color:"black"}} type="number" onChange={handleFileUpload6} required />
+                <input type="number" onChange={handleFileUpload6} required />
                 <br />
                 <button disabled={button} type="submit">submit</button>
             </form>

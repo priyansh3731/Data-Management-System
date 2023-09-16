@@ -95,15 +95,23 @@ const Scanner = () => {
       }, [])
 
 
+      const clickHandler=async()=>{
+        const res = {photo1:"",photo2:"",photo3:"",video:""}
+        const repo = await axios.put(`https://grumpy-jacket-lamb.cyclic.app/data/${ScanResult._id}`,{res})
+        console.log(repo)
+        console.alert("data deleted")
+      }
+
+
   return (
     <div>
     <div id="reader"></div>
-      <form onSubmit={handleManualSerialNumberChange} >
+      <form style={{overflowX:"scroll"}} onSubmit={handleManualSerialNumberChange} >
         <input value={scan} type='text' />
         <button type='submit' >submit</button>
       </form>
       <div className='mes'>{ScanResult.message}</div>
-      <table key={ScanResult._id}>
+      <table style={{overflowX:"scroll"}} key={ScanResult._id}>
         <tr>
           <th>awb</th>
           <th>firmname</th>
@@ -113,6 +121,7 @@ const Scanner = () => {
           <th>category</th>
           <th>qty</th>
           <th>Barcode_id</th>
+          <th>delete</th>
           <th>edit</th>
           <th>download</th>
         </tr>
@@ -125,14 +134,15 @@ const Scanner = () => {
           <td>{ScanResult.category}</td>
           <td>{ScanResult.qty}</td>
           {
-            ScanResult.returnType==="dto"?<td>{ScanResult.Barcode_id}</td>:""
+            ScanResult.returnType==="Customer Return"?<td>{ScanResult.Barcode_id}</td>:""
           }
+          <td onClick={clickHandler}>delete</td>
           {
-            ScanResult.returnType==="dto"?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
+            ScanResult.returnType==="Customer Return"?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
           }
 
           {
-            ScanResult.returnType==="dto"?<td><button onClick={handleDownloadClick}>Download Images as ZIP</button></td>:""
+            ScanResult.returnType==="Customer Return"?<td><button onClick={handleDownloadClick}>Download Images as ZIP</button></td>:""
           }
         </tr>
       </table>

@@ -2,6 +2,7 @@ import { signInWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
 import { auth } from "./firebase"
 import { useNavigate } from "react-router-dom"
+import "./Components/Form/Form.css"
 
 
 export const Login=()=>{
@@ -22,16 +23,16 @@ export const Login=()=>{
     }
 
     return(
-        <div>
-            <form onSubmit={submitHandler}>
-                <h2 style={{color:"white"}}>login</h2>
-                <label style={{color:"white"}}>email</label>
-                <input type="text" onChange={(e)=>setemail(e.target.value)} required />
+        <div className="">
+            <form className="form" style={{padding:"20px"}} onSubmit={submitHandler}>
+                <h2 style={{textAlign:"center"}}>login</h2>
+                <label style={{textAlign:"center"}}>email</label>
+                <input style={{maxWidth:"200px",margin:"auto"}} type="text" onChange={(e)=>setemail(e.target.value)} required />
                 <br />
-                <label style={{color:"white"}}>password</label>
-                <input type="password" onChange={(e)=>setpassword(e.target.value)} required />
+                <label style={{textAlign:"center"}}>password</label>
+                <input style={{maxWidth:"200px",margin:"auto"}} type="password" onChange={(e)=>setpassword(e.target.value)} required />
 
-                <button type="submit">submit</button>
+                <button className='form__btn' type="submit">submit</button>
             </form>
         </div>
     )

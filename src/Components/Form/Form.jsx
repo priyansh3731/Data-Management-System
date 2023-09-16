@@ -2,8 +2,6 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as XLSX from "xlsx";
-import { saveAs } from 'file-saver';
-import JSZip from 'jszip';
 import "./Form.css"
 
 const Form = () => {
@@ -33,7 +31,8 @@ const Form = () => {
                 photo1:"",
                 photo2:"",
                 photo3:"",
-                video:""
+                video:"",
+                date:new Date()
             }
             if(!awb || !firmName || !sborder || !rtype || !sku || !category || !qty ){
                 alert("fill all feilds")
@@ -60,11 +59,19 @@ const Form = () => {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      const res = data.map((data)=>({...data,photo1:"",photo2:"",video:""}))
+      const res = data.map((data)=>({...data,photo1:"",photo2:"",video:"",date:new Date()}))
       res.map((res)=>(axios.post("https://grumpy-jacket-lamb.cyclic.app/data",res)))
     navigate("/")
     }
     reader.readAsBinaryString(file);
+}
+
+
+const changeHandler=(e)=>{
+    if(e.target.value!=="select"){
+        const res = e.target.value;
+        setRtype(res)
+    }
 }
   
   
@@ -79,7 +86,11 @@ const Form = () => {
             <label >Suborder Id</label>
             <input type="text" onChange={(e) => setSborder(e.target.value)} value={sborder}/>
             <label >Return Type</label>
-            <input type="text" onChange={(e) => setRtype(e.target.value)} value={rtype}/>
+            <select style={{width:"200px"}} onChange={changeHandler} required>
+                <option>select</option>
+                <option>Courier Return</option>
+                <option>Customer Return</option>
+            </select>
             <label >SKU</label>
             <input type="text" onChange={(e) => setSku(e.target.value)} value={sku}/>
             <label >Category</label>
@@ -89,10 +100,10 @@ const Form = () => {
             <button className='form__btn' onClick={submitForm} type="button">Submit</button>
         </form>
 
-        <form onSubmit={excelHandler}>
+        <form className='form' onSubmit={excelHandler}>
             <label>add excel data</label>
             <input type="file" required />
-            <button type="submit">submit</button>
+            <button className='form__btn' type="submit">submit</button>
         </form>
 
     </div>

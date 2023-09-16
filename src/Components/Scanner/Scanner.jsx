@@ -99,14 +99,14 @@ const Scanner = () => {
         const res = {photo1:"",photo2:"",photo3:"",video:""}
         const repo = await axios.put(`https://grumpy-jacket-lamb.cyclic.app/data/${ScanResult._id}`,{res})
         console.log(repo)
-        console.alert("data deleted")
+        alert("data deleted")
       }
 
 
   return (
     <div>
     <div id="reader"></div>
-      <form style={{overflowX:"scroll"}} onSubmit={handleManualSerialNumberChange} >
+      <form onSubmit={handleManualSerialNumberChange} >
         <input value={scan} type='text' />
         <button type='submit' >submit</button>
       </form>
@@ -136,7 +136,9 @@ const Scanner = () => {
           {
             ScanResult.returnType==="Customer Return"?<td>{ScanResult.Barcode_id}</td>:""
           }
-          <td onClick={clickHandler}>delete</td>
+          {
+            ScanResult.returnType==="Customer Return"?<td onClick={clickHandler}>delete</td>:""
+          }
           {
             ScanResult.returnType==="Customer Return"?<td><Link className='edit' to={`/edit/${ScanResult._id}`}>edit</Link></td>:""
           }

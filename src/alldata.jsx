@@ -5,6 +5,7 @@ import "./App.css"
 
 export const AllData = () => {
   const [data, setData] = useState([]);
+  const [demo,setdemo] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Change this to the number of items you want per page
 
@@ -48,6 +49,7 @@ export const AllData = () => {
   const dataHandler = async () => {
     const res = await axios.get("https://grumpy-jacket-lamb.cyclic.app/data");
     setData(res.data);
+    setdemo(res.data)
   };
 
   useEffect(() => {
@@ -57,15 +59,24 @@ export const AllData = () => {
   // Calculate the indexes for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = demo.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  const changeHandler=(e)=>{
+    const res = e.target.value;
+    setdemo(data.filter((data)=>res===data.firmname))
+    if(res===""){
+      setdemo(data)
+    }
+  }
+
   return (
     <div>
+      <div><input onChange={changeHandler} /></div>
       <table className="all">
           <tr>
             <th>awb</th>

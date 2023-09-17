@@ -120,7 +120,6 @@ const Scanner = () => {
           <th>sku</th>
           <th>category</th>
           <th>qty</th>
-          <th>Barcode_id</th>
           <th>delete</th>
           <th>edit</th>
           <th>download</th>
@@ -133,9 +132,6 @@ const Scanner = () => {
           <td>{ScanResult.sku}</td>
           <td>{ScanResult.category}</td>
           <td>{ScanResult.qty}</td>
-          {
-            ScanResult.returnType==="Customer Return"?<td>{ScanResult.Barcode_id}</td>:""
-          }
           {
             ScanResult.returnType==="Customer Return"?<td onClick={clickHandler}>delete</td>:""
           }
